@@ -1,0 +1,97 @@
+﻿@model PagedList.IPagedList<Google_keep___2.Models.Notities>
+
+@helper Truncate(string input, int length)
+    { 
+     if (input.Length <= length)
+     { 
+        @input 
+     }
+     else
+     { 
+        @input.Substring(0, length)<text>...</text> 
+     } 
+}
+@{
+    ViewBag.Title = "Notitie index";
+}
+
+@if (Request.IsAuthenticated)
+{   
+    <div class="index1" style="width: 102%">
+        @using (Html.BeginForm())
+        {
+            <p><input type="submit" value="Search" /> @Html.TextBox("SearchString")</p>
+        }   
+            <div style="float: right">
+                @Html.ActionLink("Note Groups ", "Index", "NotitieGroup") | @Html.ActionLink("New Note", "Create")
+            </div>
+
+            Search on:        
+            @Html.ActionLink("Note Title", "Index", new { sortNotitie = ViewBag.NotitieMainSortParm }), 
+            @Html.ActionLink("Note Group", "Index", new { sortNotitie = ViewBag.NotitieMainSortParm }), 
+            @Html.ActionLink("Note Description", "Index", new { sortNotitie = ViewBag.NotitieMainSortParm })
+    </div>
+    <div class="index2">
+        @foreach (var item in Model)
+        {
+            <div     
+            style="background-color:#FDE075;
+                   width: 100%;
+                   height: auto;
+                   padding: 0.5em;
+                   float: left;
+                   margin: 5px 10px 1px 0;
+                   border: 1px solid #999;
+                   word-wrap: break-word;
+            ">
+                <div style="float: right">
+                    @Html.ActionLink("Delete", "Delete", new { id = item.NotitieId }) | @Html.ActionLink("Edit", "Edit", new { id = item.NotitieId })
+                </div>
+                    <b><i>Created by:  </i></b>@Html.DisplayFor(modelItem => item.UserName)<br /> 
+                    <b><i>Note Group: </i></b>@Html.DisplayFor(modelItem => item.NGroups.NotitieGroup) 
+                    <br /><br />                  
+                <div contentEditable="true">
+                    <i><b>@Html.DisplayFor(modelItem => item.NotitieTitle)</b></i>
+                    <br /><br />    
+                    @Html.DisplayFor(modelItem => item.NotitieDescription)
+                </div>
+                    <br />
+                    <i>@Html.DisplayFor(modelItem => item.DateTime)</i>
+            </div>            
+        }
+    </div>
+    <div class="paging" style="text-align: center">
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+        of @Model.PageCount
+     
+        @if (Model.HasPreviousPage)
+        {
+            @Html.ActionLink("<<", "Index", new { page = 1, sortNotitie = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })
+            @Html.Raw(" ");
+            @Html.ActionLink("< Prev", "Index", new { page = Model.PageNumber - 1, sortNotitie = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })
+        }
+        else
+        {
+            @:<<
+            @Html.Raw(" ");
+            @:< Prev
+        }
+     
+        @if (Model.HasNextPage)
+        {
+            @Html.ActionLink("Next >", "Index", new { page = Model.PageNumber + 1, sortNotitie = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })
+            @Html.Raw(" ");
+            @Html.ActionLink(">>", "Index", new { page = Model.PageCount, sortNotitie = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })
+        }
+        else
+        {
+            @:Next >
+            @Html.Raw(" ")
+            @:>>
+        }
+    </div>    
+}
+else
+{
+    <p>Welkom to the Google Keep - 2 project!</p>
+}

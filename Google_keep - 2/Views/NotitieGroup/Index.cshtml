@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Google_keep___2.Models.NotitieGroups>
+
+@{
+    ViewBag.Title = "Notitie Group Index";
+}
+
+<h2>Note Group Index</h2>
+
+<table>
+    <tr>
+        <th>
+            Note Group
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model) 
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NotitieGroup)
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { id = item.NotitieGroupId })
+            </td>
+        </tr>
+    }
+</table>
+<br />
+@Html.ActionLink("Back", "Index", "Home")

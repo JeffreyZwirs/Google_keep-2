@@ -1,0 +1,15 @@
+﻿@model Google_keep___2.Models.NotitieGroups
+
+@{
+    ViewBag.Title = "Delete Group";
+}
+<br />
+<h2>Delete Confirmation</h2> 
+<p>Are you sure you want to delete this note group: <strong>@Model.NotitieGroup</strong>?</p> 
+<p>The notes with this note group will also be deleted!</p>
+@using (Html.BeginForm()) 
+{ 
+    <p> 
+           <input type="submit" value="Delete" />|@Html.ActionLink("Back", "Index")
+    </p> 
+}

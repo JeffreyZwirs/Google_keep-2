@@ -1,0 +1,52 @@
+﻿@model Google_keep___2.Models.Notities
+
+@{
+    ViewBag.Title = "Create note";
+}
+
+<h2>Create Note</h2>
+
+<p>You're logged in as <strong>@User.Identity.Name</strong>.</p>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true);
+    <div>
+        <div class="editor-field">
+            @Html.Hidden("UserId", (object)ViewBag.UserId)
+        </div>
+        <div class="editor-field">
+            @Html.Hidden("UserName", (object)ViewBag.UserName)
+        </div>
+        <div class="editor-label">
+            <b>Title</b>
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(n => n.NotitieTitle)
+            @Html.ValidationMessageFor(n => n.NotitieTitle)
+        </div>
+        <div class="editor-label">
+            <b>Note Group</b> - @Html.ActionLink("New Note Group", "Create", "NotitieGroup")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("NotitieGroupId", String.Empty)
+            @Html.ValidationMessageFor(n => n.NotitieGroupId)
+        </div>
+        <div class="editor-label">
+           <b>Description</b>
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(n => n.NotitieDescription, new { @rows="10" })
+            @Html.ValidationMessageFor(n => n.NotitieDescription)
+        </div>
+        <div class="editor-label">
+            <b>Date and Time</b>
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.DateTime, new { Value = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") })
+            @Html.ValidationMessageFor(model => model.DateTime)
+        </div>
+        <input type="submit" value="Post" />|@Html.ActionLink("Back", "Index")
+    </div>
+}
+
